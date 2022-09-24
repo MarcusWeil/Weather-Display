@@ -1,20 +1,26 @@
 // ? Open Weather API
 // ? Country Flag API
 const apiKey = "2263d43a2f1bd15d4dd9f9f9c9060605";
+const apiConditionURL = "http://openweathermap.org/img/wn/"
 const apiCountryURL = "https://countryflagsapi.com/png/";
 
 const cityInput = document.querySelector("#city-input");
 const searchBtn = document.querySelector("#search");
 
+const weatherContainer = document.querySelector("#weather-data");
 const cityElement = document.querySelector("#city");
 const temperatureElement = document.querySelector("#temperature span");
 const conditionElement = document.querySelector("#description");
 const countryFlagElement = document.querySelector("#country-flag");
 const weatherIconElement = document.querySelector("#weather-icon");
-const umidityElement = document.querySelector("#umidity span");
+const humidityElement = document.querySelector("#humidity span");
 const windElement = document.querySelector("#wind span");
 
 // ** Functions
+//Tornar a primeira letra de uma string maiúscula.
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 const getWeatherData = async (city) => {
     const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`
@@ -25,11 +31,24 @@ const getWeatherData = async (city) => {
     const data = await res.json();
 
     console.log(data)
+
+    return data;
 }
 
-const showWeatherData = (city) => {
+const showWeatherData = async (city) => {
 
-    getWeatherData(city)
+    // data vai aguardar pelo resultado desse método, que vai retornar o JSON anterior.
+    const data = await getWeatherData(city);
+
+    cityElement.innerText = data.name;
+    temperatureElement.innerText = data.main.temp.toFixed(1);
+    conditionElement.innerText = capitalizeFirstLetter(data.weather[0].description);
+    humidityElement.innerText = `${data.main.humidity}$`;
+    windElement.innerText = `${data.wind.speed.toFixed(1)}km/h`;
+    //CountryFlagElement que representa country-flag no HTML terá o atributo src setado para o seguinte valor:
+    countryFlagElement.setAttribute("src", apiCountryURL + data.sys.country);
+    weatherIconElement.setAttribute("src", apiConditionURL + `${data.weather[0].icon}.png`);
+    weatherContainer.classList.remove("hide");
 
 }
 
@@ -46,4 +65,14 @@ searchBtn.addEventListener("click", (e) => {
 
     showWeatherData(city);
 
+});
+
+//Evento de "tecla pressionada" que deve ser percebida dentro do cityInput
+cityInput.addEventListener("keyup", (e) => {
+    //se a tecla pressionada neste elemento for Enter, então:
+    if (e.code === "Enter") {
+        //Atribui à city o valor atual do field nesse contexto e realiza a busca
+        const city = e.target.value;
+        showWeatherData(city);
+    }
 })
