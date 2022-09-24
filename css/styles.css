@@ -53,3 +53,54 @@ body {
     border-radius: 4px;
     cursor: pointer;
 }
+/* Weather Div acessando o id com # */
+#weather-data {
+    border-top: 1px solid white;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+/* Diminuindo o ícone dentro do h2 da div de id Weather data */
+#weather-data h2 i {
+    font-size: 1rem;
+}
+
+#weather-data h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .6rem;
+}
+
+
+/* Info que contém o nome da cidade */
+#weather-data span {
+    margin: .6rem;
+}
+
+#country-flag {
+    height: 20px;
+    border-radius: 8px;
+}
+
+/* Container que armazena o ícone e texto de condição do tempo */
+#description-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .6rem 0;
+}
+
+/* Armazena as informações de umidade e vento */
+#details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#details-container #umidity {
+    border-right: 1px solid white;
+    margin: .6rem;
+    padding: .6rem;
+}
