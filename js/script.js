@@ -3,6 +3,7 @@
 const apiKey = "2263d43a2f1bd15d4dd9f9f9c9060605";
 const apiConditionURL = "http://openweathermap.org/img/wn/"
 const apiCountryURL = "https://countryflagsapi.com/png/";
+const apiUnsplash = "https://source.unsplash.com/1600x900/?"
 
 const cityInput = document.querySelector("#city-input");
 const searchBtn = document.querySelector("#search");
@@ -15,14 +16,31 @@ const countryFlagElement = document.querySelector("#country-flag");
 const weatherIconElement = document.querySelector("#weather-icon");
 const humidityElement = document.querySelector("#humidity span");
 const windElement = document.querySelector("#wind span");
+const loader = document.querySelector("#loader");
+const error = document.querySelector("#search-error");
 
 // ** Functions
+
+const displayError = () => {
+    error.classList.remove('hide');
+}
+
+//Exibe o Loading
+const toggleLoader = () => {
+    loader.classList.toggle("hide");
+};
+const hideData = () => {
+    weatherContainer.classList.add('hide');
+    error.classList.add('hide');
+};
+
 //Tornar a primeira letra de uma string maiúscula.
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 const getWeatherData = async (city) => {
+    toggleLoader();
     const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`
 
     // response vai esperar pela conclusão dessa requisição na API
@@ -30,15 +48,20 @@ const getWeatherData = async (city) => {
     //Resultado vai vir em JSON, portanto usa-se .json()
     const data = await res.json();
 
-    console.log(data)
 
+    toggleLoader();
     return data;
 }
 
 const showWeatherData = async (city) => {
-
+    //Oculta qualquer informação antes da nova solicitação
+    hideData();
     // data vai aguardar pelo resultado desse método, que vai retornar o JSON anterior.
     const data = await getWeatherData(city);
+
+    if (data.cod == 404) {
+        displayError();
+    }
 
     cityElement.innerText = data.name;
     temperatureElement.innerText = data.main.temp.toFixed(1);
@@ -48,8 +71,8 @@ const showWeatherData = async (city) => {
     //CountryFlagElement que representa country-flag no HTML terá o atributo src setado para o seguinte valor:
     countryFlagElement.setAttribute("src", apiCountryURL + data.sys.country);
     weatherIconElement.setAttribute("src", apiConditionURL + `${data.weather[0].icon}.png`);
+    document.body.style.background = `url("${apiUnsplash + data.weather[0].main}")`
     weatherContainer.classList.remove("hide");
-
 }
 
 

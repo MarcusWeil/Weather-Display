@@ -11,8 +11,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* Gradiente que inicia em x inicial(0%) e finaliza em Y com 100%*/
-    background: linear-gradient(180deg, #7267f1 0%, #8dd0f5 100%);
+    background: url("https://source.unsplash.com/1800x720/?weather") no-repeat center center fixed;
+        background-size: cover;
 }
 
 .hide {
@@ -104,4 +104,27 @@ body {
     border-right: 1px solid white;
     margin: .6rem;
     padding: .6rem;
+}
+#search-error h2 {
+    margin: .6rem;
+}
+
+#loader {
+    border-top: 1px solid #fff;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+#loader i {
+    font-size: 1.5rem;
+    color: rgba(121, 248, 248, 0.733);
+    animation: rotate 1.5s linear infinite;
+}
+
+/* Animação de rotacionar 360 degrees para ser chamado em Animation acima */
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
 }
