@@ -43,7 +43,7 @@ const showWeatherData = async (city) => {
     cityElement.innerText = data.name;
     temperatureElement.innerText = data.main.temp.toFixed(1);
     conditionElement.innerText = capitalizeFirstLetter(data.weather[0].description);
-    humidityElement.innerText = `${data.main.humidity}$`;
+    humidityElement.innerText = `${data.main.humidity}%`;
     windElement.innerText = `${data.wind.speed.toFixed(1)}km/h`;
     //CountryFlagElement que representa country-flag no HTML terá o atributo src setado para o seguinte valor:
     countryFlagElement.setAttribute("src", apiCountryURL + data.sys.country);
