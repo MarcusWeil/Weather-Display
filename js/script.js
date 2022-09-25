@@ -3,7 +3,6 @@
 const apiKey = "2263d43a2f1bd15d4dd9f9f9c9060605";
 const apiConditionURL = "http://openweathermap.org/img/wn/"
 const apiCountryURL = "https://countryflagsapi.com/png/";
-const apiUnsplash = "https://source.unsplash.com/1600x900/?"
 
 const cityInput = document.querySelector("#city-input");
 const searchBtn = document.querySelector("#search");
@@ -71,7 +70,6 @@ const showWeatherData = async (city) => {
     //CountryFlagElement que representa country-flag no HTML terá o atributo src setado para o seguinte valor:
     countryFlagElement.setAttribute("src", apiCountryURL + data.sys.country);
     weatherIconElement.setAttribute("src", apiConditionURL + `${data.weather[0].icon}.png`);
-    document.body.style.background = `url("${apiUnsplash + data.weather[0].main}")`
     weatherContainer.classList.remove("hide");
 }
 
